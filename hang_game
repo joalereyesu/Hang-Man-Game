@@ -1,6 +1,8 @@
 #include <stdlib.h>
-
+int b
+int c
 int main (){
+    c  = b + 3
     printf ("CHELO GE");
     return 0;
 }
