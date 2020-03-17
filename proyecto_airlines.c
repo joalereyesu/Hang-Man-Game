@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#define ROWS 32
+#define COLUMNS 6
 
 int vuelo [6][32];
 int getchar (void);
@@ -67,6 +69,7 @@ void airplane (){
 }
 
 void menu (){
+    clearscreen();
     red();
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n");
     reset();
@@ -77,12 +80,15 @@ void menu (){
     reset();
     printf("Ingrese un numero del menu\n");
 }
+
+void disponibilidad (){
+    
 }
 
 int main (void){
     int choice = 1;
     scanf("%d", &choice);
     airplane();
-    getchar(;
+    getchar();
     menu();
 }
