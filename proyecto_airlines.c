@@ -37,6 +37,7 @@ void reset () {
   printf ("\033[0m");
 }
 
+
 void airplane (){
     int start = 4;
     clearscreen();
@@ -81,14 +82,97 @@ void menu (){
     printf("Ingrese un numero del menu\n");
 }
 
-void disponibilidad (){
-    
+void back_to_menu (){
+  int choice;
+  char m[4]={"menu"};
+
+  if (choice=="menu"){
+    menu();
+  }
 }
 
+void disponibilidad (){
+    clearscreen();
+    int table[33][6] =
+  {
+    {0, 1, 0, 1, 1, 1},
+    {1, 1, 1, 0, 0, 0},
+    {0, 1, 1, 1, 1, 0},
+    {0, 0, 0, 1, 1, 1},
+    {1, 0, 0, 0, 1, 1},
+    {1, 1, 1, 1, 1, 1},
+    {0, 0, 0, 0, 1, 1},
+    {1, 1, 0, 0, 0, 0},
+    {1, 0, 0, 0, 0, 1},
+    {1, 1, 0, 1, 1, 1},
+    {0, 1, 1, 1, 0, 0},
+    {1, 0, 0, 0, 1, 1},
+    {1, 1, 1, 0, 0, 1},
+    {0, 0, 0, 0, 1, 1},
+    {1, 0, 0, 1, 0, 1},
+    {1, 0, 0, 1, 1, 1},
+    {0, 0, 0, 1, 0, 0},
+    {0, 1, 0, 0, 1, 0},
+    {1, 0, 1, 0, 0, 1},
+    {0, 0, 1, 1, 1, 0},
+    {1, 1, 1, 0, 0, 1},
+    {1, 1, 0, 1, 0, 0},
+    {0, 1, 1, 1, 0, 0},
+    {1, 1, 1, 0, 1, 1},
+    {1, 1, 1, 0, 0, 0},
+    {1, 0, 0, 1, 1, 1},
+    {1, 0, 0, 0, 0, 0},
+    {1, 1, 0, 1, 1, 0},
+    {0, 0, 0, 1, 0, 0},
+    {0, 0, 1, 0, 1, 0},
+    {1, 0, 0, 1, 1, 1},
+    {1, 1, 1, 0, 0, 0},
+    {0, 0, 1, 1, 0, 0},
+  };
+  yellow();
+  printf(" | A | B | C | D | E | F |\n---------------------------\n");
+  reset();
+  for(int i = 1; i < 33; ++i)
+  {
+     yellow();
+     printf("%d|",i);
+     reset();
+     for(int j = 0; j < 6; ++j)
+     {
+        if(table[i][j] > 9)
+        {
+          printf(" %d |", table[i][j]);
+        } else {
+          printf(" %d |", table[i][j]);
+        }
+     }
+     yellow();
+     printf("\n---------------------------\n");
+     reset();
+  }
+  printf("Press enter to return to menu");
+  getchar();
+}
+
+void salir (){
+  exit (-1);
+}
+
+
 int main (void){
-    int choice = 1;
-    scanf("%d", &choice);
+    int choice;
     airplane();
     getchar();
     menu();
+    scanf("%d", &choice);
+      if (choice==1){
+        //reservacion
+      }
+      if (choice==2){
+        disponibilidad();
+      }
+      if (choice==3){
+        salir();
+      }
+    
 }
