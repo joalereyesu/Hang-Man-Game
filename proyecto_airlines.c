@@ -80,6 +80,8 @@ void airplane (){
     reset();
     red();
     printf("                   WELCOME TO AIRTRAVEL\n");
+    green();
+    printf("               you are booking flight AT312\n");
     reset();
     printf("                   Press enter to start");
 }
@@ -104,21 +106,24 @@ void back(){
 }
 
 void resumen(){
+  while(getchar ()!= '\n');
    clearscreen();
    cyan();
    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RESUMEN ~~~~~~~~~~~~~~~~~~~~~~~~~\n");
    yellow();
-    printf("aqui se le presenta el resumen de las reservaciones que fueron realizadas por los clientes:\n");
+    printf("the summary of the seats that have been booked is shown below:\n");
     contador = reservados;
     green();
-    printf("asientos reservados: %d/192\t", reservados);
+    printf("seats reserved: %d/192\t", reservados);
     rese = ((reservados/192)*100);
     printf("[%.2f%]\n", &rese);
     no_reservados = (192-reservados);
-    printf("asientos vacios: %d/192\t",no_reservados);
+    printf("emptie seats: %d/192\t",no_reservados);
     libre = ((no_reservados/192)*100);
-    printf("[%.2f%]",libre);
+    printf("[%.2f%]\n",libre);
     reset();
+    printf("press enter to return to menu\n");
+    back ();
 }
 
 void disponibilidad (){
@@ -190,16 +195,12 @@ void home_reservation(){
     yellow();
     printf("##########################SEAT RESERVATION#########################\n\n");
     reset();
-    printf("In here you can reserve as many seats as you want. When you are done reserving your seats press 5 to finish. If you want to abort the reservation and return to menu type 'm'\n\nPress enter to continue"); 
+    printf("In here you can reserve as many seats as you want. When you are done reserving your seats press 5 to finish and go back to menu.\n\nPress enter to continue"); 
     getchar();
 }
 
-void hoysi(){
-  printf("si ya termino de reservar asientos precione 3 para regresar al menu");
-      scanf("%d",opcion);
-}
-
 void reservacion (){
+  while(getchar () != '\n');
   while (1){
     show();
     red();
@@ -247,14 +248,7 @@ void reservacion (){
         getchar(); 
       }
     }
-    else{
-      hoysi();
-      if(opcion == 3){
-        break;
-      }
-    }
   }
-  menu();
   }
 
 void quit (){
