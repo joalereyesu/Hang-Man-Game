@@ -1,3 +1,5 @@
+//airlines proyecto
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -5,17 +7,24 @@
 #define ROWS 32
 #define COLUMNS 6
 
-int vuelo [6][32];
 int getchar (void);
 int table [33][6] = {0};
 int i, j;
 char asiento[3];
 int contador=0;
+int regresar = 8;
 int x;
 int columna;
 int fila;
 int n;
-int choice;
+int choice = 5;
+int reservados;
+int no_reservados;
+float rese;
+float libre;
+int opcion;
+char vuelo[5];
+
 
 void clearscreen (){
   system("@cls||clear");
@@ -45,6 +54,18 @@ void reset () {
   printf ("\033[0m");
 }
 
+void flight (){
+  clearscreen();
+  red();
+  printf("\n\n\n\n\n\n\n\n\n\n                      FLIGHTS AVAILABLE\n");
+  reset();
+  green();
+  printf("                     AE413, AI505, AT312\n");
+  reset();
+  printf("                     Enter flight number: ");
+  scanf("%s", vuelo);
+  getchar();
+}
 
 void airplane (){
     int start = 4;
@@ -72,27 +93,42 @@ void airplane (){
     reset();
     red();
     printf("                   WELCOME TO AIRTRAVEL\n");
+    green();
+    printf("               You are booking flight %s\n", vuelo);
     reset();
     printf("                   Press enter to start");
-    getchar();
 }
+
 
 void menu (){
     clearscreen();
+    green();
+    printf("                                         Flight: %s\n\n",vuelo);
+    reset();
     red();
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~MENU~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n");
     reset();
     cyan();
-    printf("1. Reserve a seat \n");
+    printf("1. Make a reservation \n");
     printf("2. See seat availability\n");
-    printf("3. Salir \n");
+    printf("3. Summary of reservations\n");
+    printf("4. Exit \n");
     reset();
     printf("Enter a number of the menu\n");
 }
 
+void back(){
+  cyan();
+  printf("\nIf you want to go back to menu press number 8\n");
+  reset();
+  scanf("%d",&regresar);
+  clearscreen();
+  menu();
+}
+
 void disponibilidad (){
+  while(getchar()!= '\n');
     clearscreen();
-  
     yellow();
     printf(" | A | B | C | D | E | F |\n---------------------------\n");
     reset();
@@ -113,13 +149,31 @@ void disponibilidad (){
      printf("\n---------------------------\n");
      reset();
   }
-  printf("Press enter to return to menu");
+  red();
+  printf("Seats already taken are shown with a 1\nSeats that are available for reservation are shown with a 0\n");
+  reset();
+}
+
+void taken(){
+  clearscreen();
+  red();
+  printf("Seat is taken. Try entering another seat\n");
+  reset();
+  printf("Press enter to continue");
   getchar();
 }
 
+void noseat(){
+  clearscreen();
+  red();
+  printf("Seat number does not exist. Try again\n");
+  reset();
+  printf("Press enter to continue");
+  getchar();
+  }
+
 void show (){
   clearscreen();
-  
     yellow();
     printf(" | A | B | C | D | E | F |\n---------------------------\n");
     reset();
@@ -147,14 +201,25 @@ void home_reservation(){
     yellow();
     printf("##########################SEAT RESERVATION#########################\n\n");
     reset();
-    printf("In here you can reserve as many seats as you want. When you are done reserving your seats press 5 to finish. If you want to abort the reservation and return to menu type 'menu'\n\nPress enter to continue"); 
-    getchar();
+    printf("In here you can book as many seats as you want. When you are done booking your seats type the word 'menu' to finish and go back to menu.\n\nPress enter to continue"); 
+}
+
+void reserved (){
+  clearscreen();
+  green();
+  printf("Seat %s has been booked succesfully\n\n",asiento);
+  reset();
+  printf("Press enter to continue booking");
+  getchar();
 }
 
 void reservacion (){
+  while(getchar () != '\n');
   while (1){
-    clearscreen();
     show();
+    red();
+    printf("Seats already taken are shown with a 1\nSeats that are available for reservation are shown with a 0\n\n");
+    reset();
     printf("Enter the letter and number of your seat.\nSeat Number:");
     scanf("%s", asiento);
     char letter_asiento = asiento[0];
@@ -176,15 +241,23 @@ void reservacion (){
     if (letter_asiento == 'F'){
       columna = 5;
     }
+    if (letter_asiento == 'm'){
+      menu();
+      break;
+    }
 
     char number_asiento[2] = {asiento[1],asiento[2]};
     int numero_asiento = atoi(number_asiento);
-  
+    contador = contador + 1;
     if (numero_asiento < 33) {
       fila = numero_asiento;
       n = 1;
+      contador++;
+      reserved();
+      getchar();
     } else {
-      printf("Seat number does not exist. Try again\n");
+      noseat();
+      getchar();
     }
     if (n==1){
       if (table[fila][columna]==0){
@@ -192,14 +265,30 @@ void reservacion (){
         contador++;
         show();
       } else{
-        printf("Seat is taken. Try entering another seat\n"); 
+        taken();
+        getchar(); 
       }
     }
-    if (choice == 5){
-    clearscreen();
-
-    }
   }
+  }
+
+void resumen(){
+  while(getchar ()!= '\n');
+   clearscreen();
+   cyan();
+   printf("~~~~~~~~~~ RESUMEN ~~~~~~~~~\n");
+   yellow();
+    printf("The summary of the seats that have been booked is shown below:\n");
+    green();
+    printf("Seats reserved: %d/192\t", contador);
+    rese = (float)contador/192 * 100;
+    printf("[%.2f%]\n", rese);
+    no_reservados = 192 - contador;
+    printf("Emptie seats: %d/192\t",no_reservados);
+    libre = (float)no_reservados/192 * 100;
+    printf("[%.2f%]\n",libre);
+    reset();
+    back ();
 }
 
 void quit (){
@@ -209,9 +298,11 @@ void quit (){
 
 
 int main (void){
+    flight();
     airplane();
     getchar();
     menu();
+    while(1){
     scanf("%d", &choice);
       if (choice==1){
         home_reservation();
@@ -220,9 +311,13 @@ int main (void){
       }
       if (choice==2){
         disponibilidad();
+        back();
       }
-      if (choice==3){
+      if (choice ==3){
+        resumen();
+      }
+      if (choice==4){
         quit();
       }
-    
+    }
 }
