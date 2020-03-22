@@ -127,7 +127,7 @@ void back(){
 }
 
 void disponibilidad (){
-  while(getchar()!= '\n');
+  while(getchar()!= '\n')
     clearscreen();
     yellow();
     printf(" | A | B | C | D | E | F |\n---------------------------\n");
@@ -248,13 +248,9 @@ void reservacion (){
 
     char number_asiento[2] = {asiento[1],asiento[2]};
     int numero_asiento = atoi(number_asiento);
-    contador = contador + 1;
     if (numero_asiento < 33) {
       fila = numero_asiento;
       n = 1;
-      contador++;
-      reserved();
-      getchar();
     } else {
       noseat();
       getchar();
@@ -263,7 +259,8 @@ void reservacion (){
       if (table[fila][columna]==0){
         table[fila][columna] = 1;
         contador++;
-        show();
+        reserved();
+        getchar();
       } else{
         taken();
         getchar(); 
@@ -273,7 +270,7 @@ void reservacion (){
   }
 
 void resumen(){
-  while(getchar ()!= '\n');
+  while(getchar ()!= '\n')
    clearscreen();
    cyan();
    printf("~~~~~~~~~~ RESUMEN ~~~~~~~~~\n");
@@ -282,11 +279,11 @@ void resumen(){
     green();
     printf("Seats reserved: %d/192\t", contador);
     rese = (float)contador/192 * 100;
-    printf("[%.2f%]\n", rese);
+    printf("[%.2f percent]\n", rese);
     no_reservados = 192 - contador;
     printf("Emptie seats: %d/192\t",no_reservados);
     libre = (float)no_reservados/192 * 100;
-    printf("[%.2f%]\n",libre);
+    printf("[%.2f percent]\n",libre);
     reset();
     back ();
 }
@@ -310,10 +307,12 @@ int main (void){
         reservacion();
       }
       if (choice==2){
+        clearscreen();
         disponibilidad();
         back();
       }
       if (choice ==3){
+        clearscreen();
         resumen();
       }
       if (choice==4){
