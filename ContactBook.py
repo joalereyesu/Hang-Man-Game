@@ -7,8 +7,6 @@ open('contacts.json', 'wb').write(getFile.content)
 with open('contacts.json', 'r') as JSON:
     contacts = json.load(JSON)
 
-print(contacts)
-
 def NewContact():
     nombre = input("Ingrese nombre del nuevo contacto\n")
     phone = input("Ingrese telefono del nuevo contacto\n")
@@ -17,7 +15,7 @@ def NewContact():
     extra = input("Ingrese informacion extra del nuevo contacto\n")
     letter = nombre[0]
 
-    
+
     for key in contacts.items():
         if key == letter:
             dicletters = contacts[letter]
@@ -40,7 +38,6 @@ def NewContact():
                     letter[nombre]['company'] = company
                     letter[nombre] = 'extra'
                     letter[nombre]['extra'] = extra
-    print(contacts)
 
 
 
