@@ -1,4 +1,6 @@
-import os, sys, yaml, requests, json
+import os, sys, yaml, requests, json, validators
+
+exit = False
 
 contacts = {}
 
@@ -12,48 +14,49 @@ print(contacts)
 def NewContact():
     nombre = input("Ingrese nombre del nuevo contacto\n")
     while(not(all(c.isalpha() or c == ' ' for c in nombre))):
-        nombre = input("es un nombre invalido\nPor favor ingrese el NOMBRE y APELLIDO del nuevo contacto:")
+        nombre = input("Es un nombre invalido\nPor favor ingrese el NOMBRE y APELLIDO del nuevo contacto:")
     else:
         print(f'nuevo contacto: {nombre}')
-
-    phone = input("Ingrese telefono del nuevo contacto\n")
-    email = input("Ingrese el correo del nuevo contacto\n")
+    
+    while(1):
+        phone = input("Ingrese telefono del nuevo contacto\n")
+        for chars in phone:
+            if chars.isnumeric():
+                break
+            else:
+                print(f"El numero {phone} contiene una letra. Ingreselo de nuevo.")
+        break
+    
+    while(1):
+        email = input("Ingrese el correo del nuevo contacto\n")
+        validate_email = validators.email(email)
+        if validate_email == True:
+            print(f"Email {email} es correcto\n")
+            break
+        else:
+            print(f"Te equivocaste '{email}' no es un correo electronico valido,\n Debes ingresar algo como: ejemplo@example.com")
+    
     company = input("Ingrese la compañia o el lugar en donde trabaja del nuevo contacto\n")
     extra = input("Ingrese informacion extra del nuevo contacto\n")
-    contacts[nombre] = {phone, email, company, extra}
+    letra = nombre[0]
+    contacts[letra][nombre] = {'telefono': ' ', 'email': ' ', 'company': ' ', 'extra': ' '}
+    contacts[letra][nombre]['telefono'] = phone
+    contacts[letra][nombre]['email'] = email
+    contacts[letra][nombre]['company'] = company
+    contacts[letra][nombre]['extra'] = extra
 
-def EditContact():
-    nombre = input('ingrese nombre y apellido del contacto que desea editar\n')
-    input_edition = int(input('1. Editar Telefono\n2. Editar Correo\n3. Editar Empresa\n4. Editar Extra\n 5. Regresar a Menu\n'))
-    leave = False
-    while not leave:
-        if input_edition ==1:
-            phone = input('ingrese nuevo telefono del contacto\n')
-            continue
-        if input_edition == 2:
-            email = str(input("Ingrese nuevo correo del contacto\n"))
-            continue                                                            #aqui hay que ver que pedo, por que no funcio
-        if input_edition == 3:
-            company = str(input("ingrese nueva empresa del contacto\n"))
-            continue
-        if input_edition == 4:
-            extra = str(input("ingrese nueva informacion extra del contacto"))
-        elif input_edition ==5:
-            leave = True
-    exists = nombre in contacts
-    if exists:
-        contacts[nombre] = phone
-    else:
-        print("El contacto no existe, intentelo de nuevo\n")
 
 def SearchContact():
     nombre = input("Ingrese nombre del contacto que quiere buscar\n")
-    exists = nombre in contacts
+    letra = nombre[0]
+    existe = nombre in contacts[letra]
 
-    if exists:
-        print(nombre + " " + contacts[nombre])
+    if existe:
+        print(nombre + " " + contacts[letra][nombre])
     else:
         print("El contacto no existe, intentelo de nuevo\n")
+
+        
 
 def EliminateContact():
     nombre = input("Ingrese nombre del contacto que quiere eliminar\n")
@@ -66,8 +69,23 @@ def EliminateContact():
         print("El contacto no existe, intentelo de nuevo\n")
 
 def SeeContacts():
-    for key,value in contacts.item():
-        print(key + " " + value)
+    contador = 0
+    for letter, name in contacts.items():
+        print(letter)
+        for key in name:
+            contador = contador + 1
+            print(f"  {contador}. {key}")
+
+    choice = int(input("Ver Contacto: "))
+    if (choice == contador):
+        print("Hola")
+        print(f"{key}: {name[key]}")
+
+            #if choice == contador:
+                #print(key + ':', name[key])
+                
+    
+
 
 def csvContactos ():
     with open('Your_Contact_List.yaml', 'w') as f:
@@ -80,8 +98,8 @@ while not exit:
     input_menu = int(input(" 1. Crear Contacto \n 2. Editar Contacto\n 3. Buscar Contacto\n 4. Eliminar Contacto\n 5.Ver Contactos\n 6. Agregar Contactos a Archivo\n 7. Salir\n"))
     if input_menu == 1:
         NewContact()
-    if input_menu == 2:
-        EditContact()
+    #if input_menu == 2:
+       # EditContact()
     if input_menu == 3:
         SearchContact()
     if input_menu == 4:
