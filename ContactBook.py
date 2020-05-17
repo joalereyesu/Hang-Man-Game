@@ -54,8 +54,6 @@ def SearchContact():
     else:
         print(nombre + " " + contacts[nombre])
 
-        
-
 def EliminateContact():
     input_nombre = input("Ingrese nombre del contacto que quiere eliminar\n")
     existe = input_nombre in contacts
@@ -137,7 +135,7 @@ def EmailContact():
     else:
         subject = input("subject:")
         mensaje2 = input("mensaje:")
-    print(emoji.emojize(':e-mail:') + f'\nSending email to: {sendemail}\n- {subject}\n>>{mensaje2}\n')
+    print(emoji.emojize(':e-mail:') + f'\nsending email to: {sendemail}\n- {subject}\n>>{mensaje2}\n')
     while start < 6:
          m, s = divmod(start, 60)
          h, m = divmod(m, 60)
