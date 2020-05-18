@@ -44,7 +44,6 @@ def NewContact():
         email = input("\nIngrese el correo del nuevo contacto\n")
         validate_email = validators.email(email)
         if validate_email == True:
-            print(f"Email {email} es correcto\n")
             break
         else:
             print(f"Te equivocaste '{email}' no es un correo electronico valido,\n Debes ingresar algo como: ejemplo@example.com")
@@ -60,7 +59,7 @@ def NewContact():
         contacts[letra][nombre]['email'] = email
         contacts[letra][nombre]['company'] = company
         contacts[letra][nombre]['extra'] = extra
-        print(contacts)
+        
     else:
         newletter = {nombre : {'telefono': ' ', 'email': ' ', 'company': ' ', 'extra': ' ' }}
         contacts[letra] = newletter
@@ -68,12 +67,12 @@ def NewContact():
         contacts[letra][nombre]['email'] = email
         contacts[letra][nombre]['company'] = company
         contacts[letra][nombre]['extra'] = extra
-        print(contacts)
+        
 
 
 def SearchContact():
     output = []
-    userChoice = input("\ningrese a quien desea buscar: ")
+    userChoice = input("\nIngrese a quien desea buscar: ")
     for i in contacts.keys():
         for name in contacts[i].keys():
             found = False
@@ -86,12 +85,20 @@ def SearchContact():
                 output.append(name)
     print(output)
 
+def SeeContacts():
+    contador = 0
+    for letter, name in contacts.items():
+        print(letter)
+        for key in name:
+            contador = contador + 1
+            print(f"\n  {contador}. {key}")
+
 def EliminateContact():
-    print("MENU:\n1.Buscar Contactos por medio de nombre\n2.Buscar contactos por medio de su numero asigando")
+    print("MENU:\n1.Eliminar Contactos por medio de nombre\n2.Eliminar contactos por medio de su numero asigando")
     choice = int(input("Ingrese su opcion: "))
 
     if choice == 1:
-        input_nombre = input("\nIngrese nombre del contacto que quiere eliminar\n")
+        input_nombre = input("\nIngrese nombre del contacto que quiere eliminar: ")
         letra = input_nombre[0]
         existe = input_nombre in contacts[letra]
         if existe:
@@ -110,7 +117,7 @@ def EliminateContact():
         else:
             input("El contacto no existe, intentelo de nuevo\n")
     if choice ==2:
-        choice = int(input("\nIngrese numero del contacto que quiere eliminar\n"))
+        elije = int(input("Ingrese numero del contacto que quiere eliminar: "))
         contador = 0
         for letter, name in contacts.items():
             newdic = contacts[letter]
@@ -118,40 +125,23 @@ def EliminateContact():
                 contador = contador + 1
                 key = newdic.keys()
                 for key in name:
-                    if choice == contador:
+                    if elije == contador:
                         contact = key
+                        contacts.pop(key)
                         print(contact)
-                        del contact
-                        #print(contact)
                             #print("Contacto eliminado con exito!\n")
                             #break
                         #else: 
                             #print("El contacto no existe, intentelo de nuevo\n")
 
-
-def SeeContacts():
-    contador = 0
-    for letter, name in contacts.items():
-        print(letter)
-        for key in name:
-            contador = contador + 1
-            print(f"  {contador}. {key}")
-                
-    
-
-
-def csvContactos ():
-    with open('Your_Contact_List.yaml', 'w') as f:
-        yaml.dump(contacts, f)
-        print(yaml.dump(contacts))
-        print('has copiado los datos al archivo llamado Your_Contact_List')
+ 
 
 def CallContact ():
     start = 0
     print("MENU:\n1.Llamar contactos por medio de nombre\n2.Llamar contactos por medio de su numero asigando")
     choice = int(input("Ingrese su opcion: "))
     if choice == 1:
-        llamando = input("Ingrese el nombre del contacto que desea llamar:")
+        llamando = input("Ingrese el nombre del contacto que desea llamar: ")
         letra = llamando[0]
         exists = llamando in contacts[letra]
         while not exists:
@@ -168,7 +158,7 @@ def CallContact ():
                 os.system('clear')
                 break
     if choice == 2:
-        llamando = int(input("Ingrese el nombre del contacto que desea llamar:"))
+        llamando = int(input("Ingrese el numero asignado del contacto que desea llamar: "))
         contador = 0
         for letter, name in contacts.items():
             newdic = contacts[letter]
@@ -187,7 +177,7 @@ def CallContact ():
                             if (start == 3):
                                 os.system('clear')
                                 break
-
+                                
 
 def MessageContact():
     start = 0
@@ -200,7 +190,7 @@ def MessageContact():
         while not exists:
             input("El contacto no existe, intentelo de nuevo\n")
         else:
-            mensaje = input("Mensaje:")
+            mensaje = input("Mensaje: ")
             print(emoji.emojize(':outbox_tray:') + f'to: {sendmensaje}\n>> {mensaje}\n')
         while start < 5:
             m, s = divmod(start, 60)
@@ -213,7 +203,7 @@ def MessageContact():
                 break
     if choice == 2:
         sendmensaje = int(input("Ingrese el numero del contacto al que desea mandar un mensaje:"))
-        mensaje = input("Mensaje:")
+        mensaje = input("Mensaje: ")
         contador = 0
         for letter, name in contacts.items():
             newdic = contacts[letter]
@@ -233,7 +223,6 @@ def MessageContact():
                                 os.system('clear')
                                 break
 
-
 def EmailContact():
     start = 0
     print("MENU:\n1.Mandar mensaje a contacto por medio de nombre\n2.Mandar mensaje a contacto por medio de su numero asigando")
@@ -245,8 +234,8 @@ def EmailContact():
         while not exists:
             input("El contacto no existe, intentelo de nuevo\n")
         else:
-            subject = input("subject:")
-            mensaje2 = input("mensaje:")
+            subject = input("Subject: ")
+            mensaje2 = input("Mensaje: ")
         print(emoji.emojize(':e-mail:') + f'\nsending email to: {sendemail}\n- {subject}\n>>{mensaje2}\n')
         while start < 6:
             m, s = divmod(start, 60)
@@ -258,7 +247,7 @@ def EmailContact():
                 os.system('clear')
                 break
     if choice == 2:
-        sendemail = int(input("Ingrese el numero del contacto al que desea mandar un correo:"))
+        sendemail = int(input("Ingrese el numero del contacto al que desea mandar un correo: "))
         contador = 0
         for letter, name in contacts.items():
             newdic = contacts[letter]
@@ -267,9 +256,9 @@ def EmailContact():
                 key = newdic.keys()
                 for key in name:
                     if sendemail == contador:
-                        subject = input("subject:")
-                        mensaje2 = input("mensaje:")
-                        print(emoji.emojize(':e-mail:') + f'\nsending email to: {key}\n- {subject}\n>>{mensaje2}\n')
+                        subject = input("Subject: ")
+                        mensaje2 = input("Mensaje: ")
+                        print(emoji.emojize(':e-mail:') + f'\nSending email to: {key}\n- {subject}\n>>{mensaje2}\n')
                         while start < 6:
                             m, s = divmod(start, 60)
                             h, m = divmod(m, 60)
@@ -280,7 +269,12 @@ def EmailContact():
                                 os.system('clear')
                                 break
 
-        
+def csvContactos ():
+    with open('Your_Contact_List.yaml', 'w') as f:
+        yaml.dump(contacts, f)
+        print(yaml.dump(contacts))
+        print('HAS COPIADO LOS DATOS AL ARCHIVO Your_Contact_List')
+
 while not exit:
 
     input_menu = int(input("\n 1. Crear Contacto \n 2. Buscar Contacto\n 3. Ver Contactos\n 4. Eliminar Contacto\n 5. Llamar Contacto\n 6. Enviar Mensaje a Contacto\n 7. Enviar Correo a Contacto\n 8. Agregar Contactos a Archivo\n 9. Salir\n"))
