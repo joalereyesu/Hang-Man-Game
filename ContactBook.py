@@ -279,21 +279,29 @@ while not exit:
 
     input_menu = int(input("\n 1. Crear Contacto \n 2. Buscar Contacto\n 3. Ver Contactos\n 4. Eliminar Contacto\n 5. Llamar Contacto\n 6. Enviar Mensaje a Contacto\n 7. Enviar Correo a Contacto\n 8. Agregar Contactos a Archivo\n 9. Salir\n"))
     if input_menu == 1:
+        os.system('clear')
         NewContact()
     if input_menu == 2:
+        os.system('clear')
         SearchContact()
     if input_menu == 3:
+        os.system('clear')
         SeeContacts()
         contactsByNumber()
     if input_menu == 4:
+        os.system('clear')
         EliminateContact()
     if input_menu == 5:
+        os.system('clear')
         CallContact()
     if input_menu == 6:
+        os.system('clear')
         MessageContact()
     if input_menu == 7:
+        os.system('clear')
         EmailContact()
     if input_menu == 8:
+        os.system('clear')
         csvContactos ()
     if input_menu == 9:
         exit = True
