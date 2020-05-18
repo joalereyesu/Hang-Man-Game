@@ -60,7 +60,7 @@ def NewContact():
         contacts[letra][nombre]['email'] = email
         contacts[letra][nombre]['company'] = company
         contacts[letra][nombre]['extra'] = extra
-        print(contacts)
+        
     else:
         newletter = {nombre : {'telefono': ' ', 'email': ' ', 'company': ' ', 'extra': ' ' }}
         contacts[letra] = newletter
@@ -68,7 +68,7 @@ def NewContact():
         contacts[letra][nombre]['email'] = email
         contacts[letra][nombre]['company'] = company
         contacts[letra][nombre]['extra'] = extra
-        print(contacts)
+        
 
 
 def SearchContact():
@@ -86,8 +86,16 @@ def SearchContact():
                 output.append(name)
     print(output)
 
+def SeeContacts():
+    contador = 0
+    for letter, name in contacts.items():
+        print(letter)
+        for key in name:
+            contador = contador + 1
+            print(f"\n  {contador}. {key}")
+
 def EliminateContact():
-    print("MENU:\n1.Buscar Contactos por medio de nombre\n2.Buscar contactos por medio de su numero asigando")
+    print("MENU:\n1.Eliminar Contactos por medio de nombre\n2.Eliminar contactos por medio de su numero asigando")
     choice = int(input("Ingrese su opcion: "))
 
     if choice == 1:
@@ -110,7 +118,7 @@ def EliminateContact():
         else:
             input("El contacto no existe, intentelo de nuevo\n")
     if choice ==2:
-        choice = int(input("\nIngrese numero del contacto que quiere eliminar\n"))
+        elije = int(input("Ingrese numero del contacto que quiere eliminar\n"))
         contador = 0
         for letter, name in contacts.items():
             newdic = contacts[letter]
@@ -118,90 +126,155 @@ def EliminateContact():
                 contador = contador + 1
                 key = newdic.keys()
                 for key in name:
-                    if choice == contador:
+                    if elije == contador:
                         contact = key
+                        contacts.pop(key)
                         print(contact)
-                        del contact
-                        #print(contact)
                             #print("Contacto eliminado con exito!\n")
                             #break
                         #else: 
                             #print("El contacto no existe, intentelo de nuevo\n")
 
+ 
 
-def SeeContacts():
-    contador = 0
-    for letter, name in contacts.items():
-        print(letter)
-        for key in name:
-            contador = contador + 1
-            print(f"\n  {contador}. {key}")
-                
-    
+def CallContact ():
+    start = 0
+    print("MENU:\n1.Llamar contactos por medio de nombre\n2.Llamar contactos por medio de su numero asigando")
+    choice = int(input("Ingrese su opcion: "))
+    if choice == 1:
+        llamando = input("Ingrese el nombre del contacto que desea llamar:")
+        letra = llamando[0]
+        exists = llamando in contacts[letra]
+        while not exists:
+            input("El contacto no existe, intentelo de nuevo\n")
+        else:
+            print(emoji.emojize(':telephone_receiver:') + f' estas llamando a "{llamando}"...')
+        while start < 3:
+            m, s = divmod(start, 60)
+            h, m = divmod(m, 60)
+            str(h).zfill(2) + ":"  + str(s).zfill(2)
+            time.sleep(1)
+            start += 1
+            if (start == 3):
+                os.system('clear')
+                break
+    if choice == 2:
+        llamando = int(input("Ingrese el numero asignado del contacto que desea llamar:"))
+        contador = 0
+        for letter, name in contacts.items():
+            newdic = contacts[letter]
+            for name in newdic.items():
+                contador = contador + 1
+                key = newdic.keys()
+                for key in name:
+                    if llamando == contador:
+                        print(emoji.emojize(':telephone_receiver:') + f' estas llamando a "{key}"...')
+                        while start < 3:
+                            m, s = divmod(start, 60)
+                            h, m = divmod(m, 60)
+                            str(h).zfill(2) + ":"  + str(s).zfill(2)
+                            time.sleep(1)
+                            start += 1
+                            if (start == 3):
+                                os.system('clear')
+                                break
+                                
 
+def MessageContact():
+    start = 0
+    print("MENU:\n1.Mandar mensaje a contacto por medio de nombre\n2.Mandar mensaje a contacto por medio de su numero asigando")
+    choice = int(input("Ingrese su opcion: "))
+    if choice == 1:
+        sendmensaje = input("Ingrese el nombre del contacto al que desea mandar un mensaje:")
+        letra = sendmensaje[0]
+        exists = sendmensaje in contacts[letra]
+        while not exists:
+            input("El contacto no existe, intentelo de nuevo\n")
+        else:
+            mensaje = input("Mensaje:")
+            print(emoji.emojize(':outbox_tray:') + f'to: {sendmensaje}\n>> {mensaje}\n')
+        while start < 5:
+            m, s = divmod(start, 60)
+            h, m = divmod(m, 60)
+            str(h).zfill(2) + ":"  + str(s).zfill(2)
+            time.sleep(1)
+            start += 1
+            if (start == 3):
+                os.system('clear')
+                break
+    if choice == 2:
+        sendmensaje = int(input("Ingrese el numero del contacto al que desea mandar un mensaje:"))
+        mensaje = input("Mensaje:")
+        contador = 0
+        for letter, name in contacts.items():
+            newdic = contacts[letter]
+            for name in newdic.items():
+                contador = contador + 1
+                key = newdic.keys()
+                for key in name:
+                    if sendmensaje == contador:
+                        print(emoji.emojize(':outbox_tray:') + f'to: {key}\n>> {mensaje}\n')
+                        while start < 5:
+                            m, s = divmod(start, 60)
+                            h, m = divmod(m, 60)
+                            str(h).zfill(2) + ":"  + str(s).zfill(2)
+                            time.sleep(1)
+                            start += 1
+                            if (start == 3):
+                                os.system('clear')
+                                break
+
+def EmailContact():
+    start = 0
+    print("MENU:\n1.Mandar mensaje a contacto por medio de nombre\n2.Mandar mensaje a contacto por medio de su numero asigando")
+    choice = int(input("Ingrese su opcion: "))
+    if choice == 1:
+        sendemail = input("Ingrese el nombre del contacto al que desea mandar un correo:")
+        letra = sendemail[0]
+        exists = sendemail in contacts[letra]
+        while not exists:
+            input("El contacto no existe, intentelo de nuevo\n")
+        else:
+            subject = input("subject:")
+            mensaje2 = input("mensaje:")
+        print(emoji.emojize(':e-mail:') + f'\nsending email to: {sendemail}\n- {subject}\n>>{mensaje2}\n')
+        while start < 6:
+            m, s = divmod(start, 60)
+            h, m = divmod(m, 60)
+            str(h).zfill(2) + ":"  + str(s).zfill(2)
+            time.sleep(1)
+            start += 1
+            if (start == 3):
+                os.system('clear')
+                break
+    if choice == 2:
+        sendemail = int(input("Ingrese el numero del contacto al que desea mandar un correo:"))
+        contador = 0
+        for letter, name in contacts.items():
+            newdic = contacts[letter]
+            for name in newdic.items():
+                contador = contador + 1
+                key = newdic.keys()
+                for key in name:
+                    if sendemail == contador:
+                        subject = input("subject:")
+                        mensaje2 = input("mensaje:")
+                        print(emoji.emojize(':e-mail:') + f'\nsending email to: {key}\n- {subject}\n>>{mensaje2}\n')
+                        while start < 6:
+                            m, s = divmod(start, 60)
+                            h, m = divmod(m, 60)
+                            str(h).zfill(2) + ":"  + str(s).zfill(2)
+                            time.sleep(1)
+                            start += 1
+                            if (start == 3):
+                                os.system('clear')
+                                break
 
 def csvContactos ():
     with open('Your_Contact_List.yaml', 'w') as f:
         yaml.dump(contacts, f)
         print(yaml.dump(contacts))
-        print('has copiado los datos al archivo llamado Your_Contact_List')
-
-def CallContact ():
-    start = 0
-    llamando = input("\ningrese el nombre del contacto que desea llamar:")
-    exists = llamando in contacts
-    while not exists:
-        input("El contacto no existe, intentelo de nuevo\n")
-    else:
-        print(emoji.emojize(':telephone_receiver:') + f' estas llamando a "{llamando}"...')
-    while start < 3:
-         m, s = divmod(start, 60)
-         h, m = divmod(m, 60)
-         str(h).zfill(2) + ":"  + str(s).zfill(2)
-         time.sleep(1)
-         start += 1
-         if (start == 3):
-             os.system('clear')
-             break
-
-def MessageContact():
-    start = 0
-    sendmensaje = input("\ningrese el nombre del contacto al que desea mandar un mensaje:")
-    exists = sendmensaje in contacts
-    while not exists:
-        input("El contacto no existe, intentelo de nuevo\n")
-    else:
-        mensaje = input("mensaje:")
-        print(emoji.emojize(':outbox_tray:') + f'to: {sendmensaje}\n>> {mensaje}\n')
-    while start < 5:
-         m, s = divmod(start, 60)
-         h, m = divmod(m, 60)
-         str(h).zfill(2) + ":"  + str(s).zfill(2)
-         time.sleep(1)
-         start += 1
-         if (start == 3):
-             os.system('clear')
-             break
-
-def EmailContact():
-    start = 0
-    sendemail = input("\ningrese el nombre del contacto al que desea mandar un correo:")
-    exists = sendemail in contacts
-    while not exists:
-        input("El contacto no existe, intentelo de nuevo\n")
-    else:
-        subject = input("subject:")
-        mensaje2 = input("mensaje:")
-    print(emoji.emojize(':e-mail:') + f'\nsending email to: {sendemail}\n- {subject}\n>>{mensaje2}\n')
-    while start < 6:
-         m, s = divmod(start, 60)
-         h, m = divmod(m, 60)
-         str(h).zfill(2) + ":"  + str(s).zfill(2)
-         time.sleep(1)
-         start += 1
-         if (start == 3):
-             os.system('clear')
-             break
+        print('HAS COPIADO LOS DATOS AL ARCHIVO Your_Contact_List')
 
 while not exit:
 
@@ -225,3 +298,4 @@ while not exit:
         csvContactos ()
     if input_menu == 9:
         exit = True
+
